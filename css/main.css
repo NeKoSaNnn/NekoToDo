@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: radial-gradient(200% 100% at bottom center, #ffffff, #6DD5FA, #6dd5ed, #2980B9);
+    background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #ffffff);
+    background-attachment: fixed;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes rotate {
+    0% {
+        transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+    }
+    100% {
+        transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+    }
+}
+
+#stars {
+    z-index: -1;
+    transform: perspective(500px);
+    transform-style: preserve-3d;
+    position: fixed;
+    bottom: 0;
+    perspective-origin: 50% 100%;
+    left: 50%;
+    animation: rotate 90s infinite linear;
+}
+
+.star {
+    width: 2px;
+    height: 2px;
+    background: #F7F7B6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0 -300px;
+    transform: translate3d(0, 0, -300px);
+    backface-visibility: hidden;
+}
+
+.content {
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    font-family: Helvetica, sans serif;
+    color: #ffffff99;
+}
+
+#todo {
+    position: relative;
+    margin: auto;
+    width: 60vw;
+}
+
+.artboard {
+    position: relative;
+    margin: auto;
+    width: 60vw;
+}
+
+#todo_items {
+    padding-top: 20px;
+}
+
+#todo_items .item {
+    width: 60vw;
+    height: 10vmin;
+    display: block;
+    margin: 1vw;
+    transition: 0.4s ease-in-out 0s;
+}
+
+#todo_items .yellow {
+    background: #FFD568;
+    opacity: 1;
+}
+
+#todo_items .blue {
+    background: #91E3FF;
+    opacity: 1;
+}
+
+#todo_items .pink {
+    background: #FF766D;
+    opacity: 1;
+}
+
+#todo_items .hide {
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+#filter_btn {
+    position: relative;
+    margin: auto;
+    text-align: center;
+}
+
+#filter_btn div {
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin: 4px;
+}
+
+#filter_btn .active {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
