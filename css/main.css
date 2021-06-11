@@ -60,12 +60,6 @@ body {
     width: 60vw;
 }
 
-.artboard {
-    position: relative;
-    margin: auto;
-    width: 60vw;
-}
-
 #todo_items {
     padding-top: 20px;
 }
@@ -117,4 +111,61 @@ body {
 #filter_btn .active {
     color: #fff;
     border-bottom: 1px solid #fff;
+}
+
+.todo_input {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 4rem;
+    background: #64b3f4;
+    border-radius: .7rem;
+}
+
+#add_input,
+#add {
+    height: 4rem;
+    font-family: 'Lato', sans-serif;
+    border: 0;
+    font-size: 1.8rem;
+}
+
+#add_input {
+    outline: 0;
+    width: 100%;
+    background: #fff;
+    color: #2f2f2f;
+    padding: 0 1.6rem;
+    border-radius: .7rem;
+    appearance: none;
+    transition: all .3s cubic-bezier(0, 0, 0.43, 1.49);
+    transition-property: width, border-radius;
+    position: relative;
+    box-sizing: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+#add {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6rem;
+    font-weight: bold;
+    background: #64b3f4;
+    color: #fff;
+    border-radius: 0 .7rem .7rem 0;
+}
+
+#add_input:not(:placeholder-shown) {
+    border-radius: .7rem 0 0 .7rem;
+    width: calc(100% - 6rem);
+}
+
+#add_input:not(:placeholder-shown)+#add {
+    display: block;
 }

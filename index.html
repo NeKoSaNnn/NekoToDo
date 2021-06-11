@@ -7,6 +7,7 @@
     <meta name="description" content="ToDo MJX Neko">
     <meta name="keywords" content="HTML, CSS, JavaScript, ToDo,MJX">
     <title>ToDo ~</title>
+    <link href="css/unicons.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/preload.css" rel="stylesheet">
 </head>
@@ -15,12 +16,16 @@
     <div id="loader-wrapper">
         <div id="loader"></div>
     </div>
+    <!--
     <div id="stars"></div>
+    js卡顿则移除-->
     <div class="content">
         <div id="todo">
             <h2>ToDO</h2>
-            <label for="add_input">Please Input</label><input id="add_input" value="">
-            <button id="add">Add</button>
+            <div class="todo_input">
+                <input id="add_input" type="text" placeholder="Add To Do ~" value="" autofocus required>
+                <button id="add"><i class="uil uil-notes"></i></button>
+            </div>
             <div id="filter_btn">
                 <div id="All_btn" class="filter all active">ALL</div>
                 <div id="ToDo_btn" class="filter todo">ToDo</div>
@@ -33,7 +38,6 @@
                 <button id="notdone_All">Not Done All</button>
             </div>
         </div>
-
     </div>
 </body>
 

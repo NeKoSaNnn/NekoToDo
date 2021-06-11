@@ -172,6 +172,15 @@ function addToDo() {
         now_div.appendChild(now_star_btn)
 
         $("#todo_items").appendChild(now_div)
+        $("#add_input").value = ""
+        vt.success("Add Note ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1000,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        })
     }
 }
 
