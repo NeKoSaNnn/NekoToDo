@@ -181,6 +181,15 @@ function addToDo() {
             focusable: true,
             callback: undefined
         })
+    } else {
+        vt.error("Input Can't Empry ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1000,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        })
     }
 }
 
