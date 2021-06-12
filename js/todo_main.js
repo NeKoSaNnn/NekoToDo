@@ -84,20 +84,45 @@ function initMyToDo() {
         if (item.done) done_cnt++;
         else todo_cnt++;
 
-        let now_h2 = $CRE("h2")
-        now_h2.innerHTML = item.content
-        now_h2.addEventListener("click", function() {
+        let now_check_btn = $CRE("div"),
+            now_check_i = $CRE("i")
+        now_check_btn.classList.add("check_btn")
+        now_check_btn.appendChild(now_check_i)
+        now_check_btn.addEventListener("click", function() {
             doneToDo(event, this)
         })
 
-        let now_del_btn = $CRE("button")
-        now_del_btn.innerHTML = "Delete"
+        let now_content = $CRE("div"),
+            now_text = $CRE("div"),
+            now_datetime = $CRE("div")
+        now_content.classList.add("todo_content")
+        now_text.classList.add("todo_text")
+        now_text.innerHTML = item.content
+        now_datetime.classList.add("todo_datetime")
+        now_datetime.innerHTML = item.datetime
+        now_content.appendChild(now_text)
+        now_content.appendChild(now_datetime)
+        now_content.addEventListener("click", function() { //考虑到移动端无法使用dblclick，使用click间隔模拟
+            editText(event, this)
+        })
+
+        let now_del_btn = $CRE("div"),
+            now_del_i = $CRE("i")
+        now_del_btn.classList.add("delete_btn")
+        now_del_i.classList.add("far")
+        now_del_i.classList.add("fa-trash-alt")
+        now_del_btn.title = "Delete"
+        now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
             deleteToDo(event, this)
         })
 
-        let now_star_btn = $CRE("button")
+        let now_star_btn = $CRE("div"),
+            now_star_i = $CRE("i")
         now_star_btn.classList.add("star_btn")
+        now_star_i.classList.add("far")
+        now_star_i.classList.add("fa-star")
+        now_star_btn.appendChild(now_star_i)
         now_star_btn.addEventListener("click", function() {
             starToDo(event, this)
         })
@@ -112,7 +137,9 @@ function initMyToDo() {
             now_div.classList.remove("blue")
             now_div.classList.add("pink")
         }
-        now_div.appendChild(now_h2)
+
+        now_div.appendChild(now_check_btn)
+        now_div.appendChild(now_content)
         now_div.appendChild(now_del_btn)
         now_div.appendChild(now_star_btn)
 
@@ -124,35 +151,60 @@ function initMyToDo() {
 }
 
 function addToDo() {
-    let now_content = $("#add_input").value
-    now_content = now_content.trim()
-    if (now_content.length >= 1) {
-        let timestamp = new Date().getTime()
-        let now_item_id = "item-" + timestamp
+    let input_content = $("#add_input").value
+    input_content = input_content.trim()
+    if (input_content.length >= 1) {
+        let timestamp = new Date().getTime(),
+            now_item_id = "item-" + timestamp,
+            datetime = new Date()
         model.data.todo_items[now_item_id] = {
-            content: now_content,
-            datetime: new Date(),
+            content: input_content,
+            datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
             done: false,
             star: false,
         }
         model.flush()
         let item = model.data.todo_items[now_item_id]
 
-        let now_h2 = $CRE("h2")
-        now_h2.innerHTML = now_content
-        now_h2.addEventListener("click", function() {
+        let now_check_btn = $CRE("div"),
+            now_check_i = $CRE("i")
+        now_check_btn.classList.add("check_btn")
+        now_check_btn.appendChild(now_check_i)
+        now_check_btn.addEventListener("click", function() {
             doneToDo(event, this)
         })
 
-        let now_del_btn = $CRE("button")
-        now_del_btn.innerHTML = "Delete"
+        let now_content = $CRE("div"),
+            now_text = $CRE("div"),
+            now_datetime = $CRE("div")
+        now_content.classList.add("todo_content")
+        now_text.classList.add("todo_text")
+        now_text.innerHTML = item.content
+        now_datetime.classList.add("todo_datetime")
+        now_datetime.innerHTML = item.datetime
+        now_content.appendChild(now_text)
+        now_content.appendChild(now_datetime)
+        now_content.addEventListener("click", function() { //考虑到移动端无法使用dblclick，使用click间隔模拟
+            editText(event, this)
+        })
+
+        let now_del_btn = $CRE("div"),
+            now_del_i = $CRE("i")
+        now_del_btn.classList.add("delete_btn")
+        now_del_i.classList.add("far")
+        now_del_i.classList.add("fa-trash-alt")
+        now_del_btn.title = "Delete"
+        now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
             deleteToDo(event, this)
         })
 
-        let now_star_btn = $CRE("button")
-        now_star_btn.innerHTML = "Star"
+        let now_star_btn = $CRE("div"),
+            now_star_i = $CRE("i")
         now_star_btn.classList.add("star_btn")
+        now_star_i.classList.add("far")
+        now_star_i.classList.add("fa-star")
+        now_star_btn.appendChild(now_star_i)
         now_star_btn.addEventListener("click", function() {
             starToDo(event, this)
         })
@@ -167,11 +219,16 @@ function addToDo() {
             now_div.classList.remove("blue")
             now_div.classList.add("pink")
         }
-        now_div.appendChild(now_h2)
+        now_div.appendChild(now_check_btn)
+        now_div.appendChild(now_content)
         now_div.appendChild(now_del_btn)
         now_div.appendChild(now_star_btn)
 
         $("#todo_items").appendChild(now_div)
+
+        updateStar(now_div, false)
+        updateDone(now_div, false)
+
         $("#add_input").value = ""
         vt.success("Add Note ~", {
             title: undefined,
@@ -203,7 +260,7 @@ function updateMyToDo(hash) {
                 setTimeout(function() {
                     item.classList.remove("hide")
                 }, 0)
-                item.style.display = "block"
+                item.style.display = "flex"
             } else {
                 item.classList.add("hide")
                 setTimeout(function() {
@@ -231,14 +288,19 @@ function starToDo(event, now) {
 }
 
 function updateStar(now_item, isStar) { //更新Star样式表
-    let now_start_btn = now_item.querySelector(".star_btn")
+    let now_start_btn = now_item.querySelector(".star_btn"),
+        now_star_i = now_start_btn.querySelector("i")
     if (isStar) { //前置状态已收藏，进行取消收藏操作
-        now_item.style.backgroundColor = "red"
-        now_start_btn.innerHTML = "Cancel"
+        now_star_i.classList.remove("far")
+        now_star_i.classList.add("fas")
+        now_star_i.classList.add("Star")
+        now_start_btn.title = "Cancel"
 
     } else { //前置状态未收藏，进行收藏操作
-        now_item.style.backgroundColor = ""
-        now_start_btn.innerHTML = "Star"
+        now_star_i.classList.remove("fas")
+        now_star_i.classList.remove("Star")
+        now_star_i.classList.add("far")
+        now_start_btn.title = "Star"
     }
 }
 
@@ -250,19 +312,18 @@ function doneToDo(event, now) {
     updateDone(now_item, model.data.todo_items[now_id].done)
 }
 
-function deleteAll(event, type) {
-    for (let key in model.data.todo_items) {
-        let now_item = model.data.todo_items[key]
-        if (type === "ALL" || (type === "Done" && now_item.done) || (type === "ToDo" && !now_item.done)) {
-            setItemStyle(now_item, "Delete", "")
-            delete model.data.todo_items[key]
-        }
-    }
-    model.flush()
-    updateMyToDo(type)
+function editText(event, now) {
+    let now_item = now.parentNode,
+        now_id = now_item.getAttribute("id"),
+        now_modal = $("#modal"),
+        now_modal_text = $("#modify_content")
+    now_modal_text.innerHTML = model.data.todo_items[now_id].content
+    now_modal.open()
 }
 
 function setItemStyle(now_item, type, hash) {
+    let now_check = now_item.querySelector(".check_btn"),
+        now_check_i = now_check.querySelector("i")
     if (type === "Done") { //已完成样式，只可能在
         if (hash === "Done") {
             setTimeout(function() {
@@ -280,7 +341,12 @@ function setItemStyle(now_item, type, hash) {
             now_item.classList.remove("pink")
             now_item.classList.add("blue")
         }
-    } else if (type === "ToDo") { //待完成样式
+        now_check_i.classList.remove("far")
+        now_check_i.classList.remove("fa-square")
+        now_check_i.classList.add("fas")
+        now_check_i.classList.add("fa-check-square")
+    } else
+    if (type === "ToDo") { //待完成样式
         if (hash === "Done") {
             now_item.classList.add("hide")
             setTimeout(function() {
@@ -297,6 +363,10 @@ function setItemStyle(now_item, type, hash) {
             now_item.classList.remove("blue")
             now_item.classList.add("pink")
         }
+        now_check_i.classList.remove("fas")
+        now_check_i.classList.remove("fa-check-square")
+        now_check_i.classList.add("far")
+        now_check_i.classList.add("fa-square")
     } else if (type === "Delete") {
         now_item.classList.add("hide")
         setTimeout(function() {
@@ -304,6 +374,19 @@ function setItemStyle(now_item, type, hash) {
                 //now_item.style.display = "none"
         }, 400)
     }
+}
+
+
+function deleteAll(event, type) {
+    for (let key in model.data.todo_items) {
+        let now_item = model.data.todo_items[key]
+        if (type === "ALL" || (type === "Done" && now_item.done) || (type === "ToDo" && !now_item.done)) {
+            setItemStyle(now_item, "Delete", "")
+            delete model.data.todo_items[key]
+        }
+    }
+    model.flush()
+    updateMyToDo(type)
 }
 
 function doneAll() {
@@ -333,21 +416,21 @@ function clearAll() {
 }
 
 function updateDone(now_item, isDone) {
-    let now_h2 = now_item.querySelector("h2");
-    let hash = window.location.hash.split("#")[1]
+    let now_text = now_item.querySelector(".todo_text"),
+        hash = window.location.hash.split("#")[1]
     if (isDone) {
-        let now_content = now_h2.innerHTML,
+        let now_content = now_text.innerHTML,
             now_s = $CRE("s")
         now_s.innerHTML = now_content
-        now_h2.innerHTML = ""
-        now_h2.appendChild(now_s)
+        now_text.innerHTML = ""
+        now_text.appendChild(now_s)
         setItemStyle(now_item, "Done", hash)
     } else {
-        let now_s = now_h2.querySelector("s")
+        let now_s = now_text.querySelector("s")
         if (now_s) {
             let now_content = now_s.innerHTML
-            now_h2.removeChild(now_s)
-            now_h2.innerHTML = now_content
+            now_text.removeChild(now_s)
+            now_text.innerHTML = now_content
         }
         setItemStyle(now_item, "ToDo", hash)
     }
