@@ -31,6 +31,7 @@ window.onload = function() {
         $("#All_btn").classList.add("active")
         $("#Done_btn").classList.remove("active")
         $("#ToDo_btn").classList.remove("active")
+        $("#Star_btn").classList.remove("active")
         filter(event, "ALL")
     })
     $("#Done_btn").addEventListener("click", function() {
@@ -46,6 +47,7 @@ window.onload = function() {
         $("#All_btn").classList.remove("active")
         $("#Done_btn").classList.add("active")
         $("#ToDo_btn").classList.remove("active")
+        $("#Star_btn").classList.remove("active")
         filter(event, "Done")
     })
     $("#ToDo_btn").addEventListener("click", function() {
@@ -61,7 +63,24 @@ window.onload = function() {
         $("#All_btn").classList.remove("active")
         $("#Done_btn").classList.remove("active")
         $("#ToDo_btn").classList.add("active")
+        $("#Star_btn").classList.remove("active")
         filter(event, "ToDo")
+    })
+    $("#Star_btn").addEventListener("click", function() {
+        window.location.href = "#Star"
+        vt.success("Change To Star ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1000,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        })
+        $("#All_btn").classList.remove("active")
+        $("#Done_btn").classList.remove("active")
+        $("#ToDo_btn").classList.remove("active")
+        $("#Star_btn").classList.add("active")
+        filter(event, "Star")
     })
 
     $("#delete_All").addEventListener("click", function() {
@@ -79,6 +98,7 @@ window.onload = function() {
 function initMyToDo() {
     var todo_cnt = 0;
     var done_cnt = 0;
+    let hash = window.location.hash.split("#")[1]
     for (let key in model.data.todo_items) {
         let item = model.data.todo_items[key]
         if (item.done) done_cnt++;
@@ -99,7 +119,6 @@ function initMyToDo() {
         now_text.classList.add("todo_text")
         now_text.innerHTML = item.content
         now_datetime.classList.add("todo_datetime")
-        now_datetime.innerHTML = item.datetime
         now_content.appendChild(now_text)
         now_content.appendChild(now_datetime)
         now_content.addEventListener("click", function() { //考虑到移动端无法使用dblclick，使用click间隔模拟
@@ -145,13 +164,15 @@ function initMyToDo() {
 
         $("#todo_items").appendChild(now_div)
 
-        updateStar(now_div, model.data.todo_items[key].star)
+        updateStar(now_div, hash, model.data.todo_items[key].star)
         updateDone(now_div, model.data.todo_items[key].done)
+        updateDateTime(now_div, model.data.todo_items[key].datetime, model.data.todo_items[key].isModify)
     }
 }
 
 function addToDo() {
-    let input_content = $("#add_input").value
+    let input_content = $("#add_input").value,
+        hash = window.location.hash.split("#")[1]
     input_content = input_content.trim()
     if (input_content.length >= 1) {
         let timestamp = new Date().getTime(),
@@ -162,6 +183,7 @@ function addToDo() {
             datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
             done: false,
             star: false,
+            isModify: false,
         }
         model.flush()
         let item = model.data.todo_items[now_item_id]
@@ -226,7 +248,7 @@ function addToDo() {
 
         $("#todo_items").appendChild(now_div)
 
-        updateStar(now_div, false)
+        updateStar(now_div, hash, false)
         updateDone(now_div, false)
 
         $("#add_input").value = ""
@@ -239,7 +261,7 @@ function addToDo() {
             callback: undefined
         })
     } else {
-        vt.error("Input Can't Empry ~", {
+        vt.error("Input Can't be Empty ~", {
             title: undefined,
             position: "top-right",
             duration: 1000,
@@ -256,19 +278,32 @@ function updateMyToDo(hash) {
         if (item) {
             let item_id = item.getAttribute("id")
             let now_item = model.data.todo_items[item_id]
-            if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done))) {
-                setTimeout(function() {
-                    item.classList.remove("hide")
-                }, 0)
+            if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) {
+                item.classList.remove("hide")
                 item.style.display = "flex"
+                item.querySelector(".todo_text").innerHTML = now_item.content
+                updateDone(item, now_item.done)
+                updateDateTime(item, now_item.datetime, now_item.isModify)
             } else {
                 item.classList.add("hide")
+                item.querySelector(".todo_text").innerHTML = now_item.content
+                updateDone(item, now_item.done)
+                updateDateTime(item, now_item.datetime, now_item.isModify)
                 setTimeout(function() {
                     item.style.display = "none"
-                }, 400)
+                }, 10)
+
             }
         }
     }
+}
+
+function updateMyOneToDo(item) { //为Modify服务
+    let item_id = item.getAttribute("id")
+    let now_item = model.data.todo_items[item_id]
+    item.querySelector(".todo_text").innerHTML = now_item.content
+    updateDone(item, now_item.done)
+    updateDateTime(item, now_item.datetime, now_item.isModify)
 }
 
 function deleteToDo(event, now) {
@@ -281,13 +316,14 @@ function deleteToDo(event, now) {
 
 function starToDo(event, now) {
     let now_item = now.parentNode,
-        now_id = now_item.getAttribute("id")
+        now_id = now_item.getAttribute("id"),
+        hash = window.location.hash.split("#")[1]
     model.data.todo_items[now_id].star = !model.data.todo_items[now_id].star
     model.flush()
-    updateStar(now_item, model.data.todo_items[now_id].star)
+    updateStar(now_item, hash, model.data.todo_items[now_id].star)
 }
 
-function updateStar(now_item, isStar) { //更新Star样式表
+function updateStar(now_item, hash, isStar) { //更新Star样式表
     let now_start_btn = now_item.querySelector(".star_btn"),
         now_star_i = now_start_btn.querySelector("i")
     if (isStar) { //前置状态已收藏，进行取消收藏操作
@@ -302,6 +338,12 @@ function updateStar(now_item, isStar) { //更新Star样式表
         now_star_i.classList.add("far")
         now_start_btn.title = "Star"
     }
+    if (hash === "Star") {
+        now_item.classList.add("hide")
+        setTimeout(function() {
+            now_item.style.display = "none"
+        }, 400)
+    }
 }
 
 function doneToDo(event, now) {
@@ -314,11 +356,8 @@ function doneToDo(event, now) {
 
 function editText(event, now) {
     let now_item = now.parentNode,
-        now_id = now_item.getAttribute("id"),
-        now_modal = $("#modal"),
-        now_modal_text = $("#modify_content")
-    now_modal_text.innerHTML = model.data.todo_items[now_id].content
-    now_modal.open()
+        now_modal = $("#modal")
+    now_modal.open(now_item)
 }
 
 function setItemStyle(now_item, type, hash) {
@@ -433,6 +472,17 @@ function updateDone(now_item, isDone) {
             now_text.innerHTML = now_content
         }
         setItemStyle(now_item, "ToDo", hash)
+    }
+}
+
+function updateDateTime(now_item, datetime, isModify) {
+    let now_datetime = now_item.querySelector(".todo_datetime")
+    now_datetime.innerHTML = datetime
+    if (isModify) {
+        let new_tag = $CRE("span")
+        new_tag.innerHTML = "&nbsp;&nbsp;New&nbsp;!"
+        new_tag.classList.add("modify_tag")
+        now_datetime.appendChild(new_tag)
     }
 }
 

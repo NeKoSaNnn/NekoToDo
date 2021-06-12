@@ -14,13 +14,15 @@
         flex-flow: column nowrap;
         justify-content: space-between;
         background: linear-gradient(143deg, #17ead9, #6078ea) !important;
+        backdrop-filter: blur(1rem);
+        box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 17%);
         width: 50%;
         max-width: 700px;
         height: 45%;
         max-height: 500px;
         margin: 0 auto;
         margin-top: 30vh;
-        border-radius: 10px;
+        border-radius: 0.5rem;
         background-color: #fff;
         z-index: 10000;
     }
@@ -34,7 +36,7 @@
         font-size: 1.3rem;
         line-height: 1.5;
         color: #495057;
-        background-color: rgba(247, 247, 247, 0.6);
+        background-color: rgba(254, 254, 254, 0.85);
         background-clip: padding-box;
         border: 1px solid #ced4da;
         border-radius: .25rem;
@@ -57,7 +59,7 @@
     
     .modal-hidden-anim {
         transform: translateX(-1500px);
-        animation: roadRunnerOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        animation: roadRunnerOut 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     }
     
     @keyframes roadRunnerIn {
@@ -155,13 +157,13 @@
         align-items: center;
     }
     
-    .modal-footer button {
+    #sure {
         display: inline-block;
         padding: 1.1875rem 1.875rem 1.1875rem 1.875rem;
-        border: 0.125rem solid #32be9e;
-        border-radius: 0.3rem;
-        background-color: #fff;
-        color: #32be9e;
+        border: 1px solid transparent;
+        border-radius: 0.5rem;
+        background-color: #6dd5ed;
+        color: #fff;
         font: 700 0.75rem/0 "Montserrat", sans-serif;
         text-decoration: none;
         transition: all 0.2s;
@@ -169,12 +171,36 @@
         margin-left: 2rem;
     }
     
-    .modal-footer button:hover,
-    .modal-footer button:focus {
-        background-color: #32be9e;
+    #sure:hover,
+    #sure:focus {
+        background-color: #fff;
+        color: #6dd5ed;
+        text-decoration: none;
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+    
+    #cancel {
+        display: inline-block;
+        padding: 1.1875rem 1.875rem 1.1875rem 1.875rem;
+        border: 1px solid #6dd5ed;
+        border-radius: 0.5rem;
+        background-color: #fff;
+        color: #6dd5ed;
+        font: 700 0.75rem/0 "Montserrat", sans-serif;
+        text-decoration: none;
+        transition: all 0.2s;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+        margin-left: 2rem;
+    }
+    
+    #cancel:hover,
+    #cancel:focus {
+        background-color: #6dd5ed;
         color: #fff;
         text-decoration: none;
         cursor: pointer;
+        transform: scale(1.1);
     }
     
     @media only screen and (max-width: 700px) {
