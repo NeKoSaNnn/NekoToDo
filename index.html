@@ -41,19 +41,25 @@
     <div class="content">
         <div id="todo">
             <h1>ToDO</h1>
+            <div class="sum_text">
+                <div id="done_text">Done&nbsp;:&nbsp;<span id="done_cnt" class="cnt"></span></div>
+                <div id="todo_text">Todo&nbsp;:&nbsp;<span id="todo_cnt" class="cnt"></span></div>
+                <div id="star_text">Star&nbsp;:&nbsp;<span id="star_cnt" class="cnt"></span></div>
+            </div>
             <div class="todo_input">
                 <input id="add_input" type="text" placeholder="Add To Do ~" value="" autofocus required>
                 <button id="add"><i class="fas fa-plus"></i></button>
                 <input id="search_input" type="text" placeholder="Search ~" value="" style="display: none;" autofocus required>
                 <button id="search" style="display: none;"><i class="fas fa-search"></i></button>
             </div>
+            <div id="search_text">Search&nbsp;"<span id="search_span"></span>"&nbsp;Result:</div>
             <div id="filter_btn">
                 <div id="All_btn" class="filter all active">ALL</div>
                 <div id="ToDo_btn" class="filter todo">ToDo</div>
                 <div id="Done_btn" class="filter done">Done</div>
                 <div id="Star_btn" class="filter key-star">Star</div>
             </div>
-            <input id="search_content" type="hidden" style="display: none;"></input>
+            <input id="search_content" type="hidden" style="display: none;">
             <div id="todo_items"></div>
         </div>
     </div>

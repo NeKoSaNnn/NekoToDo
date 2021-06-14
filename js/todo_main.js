@@ -40,11 +40,17 @@ window.onload = function() {
         $("#search").style.display = "none"
         $("#add_input").style.display = ""
         $("#add").style.display = ""
+        $("#search_text").classList.remove("show")
+        $("#search_text").classList.add("hide")
+        $("#search_text").style.visibility = "hidden"
     } else if ($("#search_or_add").value === "add") {
         $("#add_input").style.display = "none"
         $("#add").style.display = "none"
         $("#search_input").style.display = ""
         $("#search").style.display = ""
+        $("#search_text").classList.remove("hide")
+        $("#search_text").classList.add("show")
+        $("#search_text").style.visibility = "visible"
     }
 
     $('.btn-triger').addEventListener("click", function() {
@@ -150,11 +156,13 @@ window.onload = function() {
 function initMyToDo() {
     let todo_cnt = 0,
         done_cnt = 0,
+        star_cnt = 0,
         hash = window.location.hash.split("#")[1]
     for (let key in model.data.todo_items) {
         let item = model.data.todo_items[key]
         if (item.done) done_cnt++;
-        else todo_cnt++;
+        else if (!item.done) todo_cnt++;
+        if (item.star) star_cnt++;
 
         let now_check_btn = $CRE("div"),
             now_check_i = $CRE("i")
@@ -225,6 +233,9 @@ function initMyToDo() {
         $("#todo_items").appendChild(now_div)
 
     }
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
     if (JSON.stringify(model.data.todo_items) == "{}") {
         $("#filter_btn").classList.remove("show")
         $("#filter_btn").classList.add("hide")
@@ -379,7 +390,8 @@ function addToDo() {
 function updateMyToDo(hash) {
     let todo_items = $All(".item"),
         todo_cnt = 0,
-        done_cnt = 0
+        done_cnt = 0,
+        star_cnt = 0
     for (let item of todo_items) {
         if (item) {
             let item_id = item.getAttribute("id")
@@ -405,11 +417,21 @@ function updateMyToDo(hash) {
                     setTimeout(function() {
                         item.style.display = "none"
                     }, 10)
-
+                }
+                if (now_item.done) {
+                    done_cnt++
+                } else if (!now_item.done) {
+                    todo_cnt++
+                }
+                if (now_item.star) {
+                    star_cnt++
                 }
             }
         }
     }
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
     if (JSON.stringify(model.data.todo_items) == "{}") {
         $("#filter_btn").classList.remove("show")
         $("#filter_btn").classList.add("hide")
@@ -432,6 +454,11 @@ function updateMyOneToDo(item) { //为Modify服务
 function deleteToDo(event, now) {
     let now_item = now.parentNode
     let now_id = now_item.getAttribute("id")
+    if (model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) - 1)
+    } else if (!model.data.todo_items[now_id].done) {
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
+    }
     delete model.data.todo_items[now_id]
     model.flush()
     setItemStyle(now_item, "Delete", "")
@@ -448,6 +475,11 @@ function starToDo(event, now) {
         hash = window.location.hash.split("#")[1]
     model.data.todo_items[now_id].star = !model.data.todo_items[now_id].star
     model.flush()
+    if (model.data.todo_items[now_id].star) {
+        $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) + 1
+    } else if (!model.data.todo_items[now_id].star) {
+        $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) - 1
+    }
     updateStar(now_item, hash, model.data.todo_items[now_id].star)
 }
 
@@ -480,6 +512,13 @@ function doneToDo(event, now) {
         now_id = now_item.getAttribute("id")
     model.data.todo_items[now_id].done = !model.data.todo_items[now_id].done
     model.flush()
+    if (model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) + 1)
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
+    } else if (!model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) - 1)
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) + 1)
+    }
     updateDone(now_item, model.data.todo_items[now_id].done)
 }
 
@@ -586,7 +625,8 @@ function deleteAll() {
 }
 
 function doneAll() {
-    let cnt = 0
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
     for (let key in model.data.todo_items) {
         let now_item = model.data.todo_items[key],
             now_item_div = $("#" + key)
@@ -596,7 +636,7 @@ function doneAll() {
             cnt++
         }
     }
-    model.flush()
+    filter(event, hash)
     if (cnt == 0) {
         vt.info("Nothing Done ~", {
             title: undefined,
@@ -619,7 +659,8 @@ function doneAll() {
 }
 
 function notdoneAll() {
-    let cnt = 0
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
     for (let key in model.data.todo_items) {
         let now_item = model.data.todo_items[key],
             now_item_div = $("#" + key)
@@ -629,7 +670,7 @@ function notdoneAll() {
             cnt++
         }
     }
-    model.flush()
+    filter(event, hash)
     if (cnt == 0) {
         vt.info("Nothing Not Done ~", {
             title: undefined,
@@ -731,6 +772,9 @@ function changeModel() {
     let now_i = $("#search_or_add").querySelector("i"),
         hash = window.location.hash.split("#")[1]
     if ($("#search_or_add").value === "search") { //切换到Search
+        $("#search_text").classList.remove("hide")
+        $("#search_text").classList.add("show")
+        $("#search_text").style.visibility = "visible"
         $("#search_or_add").value = "add"
         now_i.classList.remove("fa-search")
         now_i.classList.add("fa-calendar-plus")
@@ -741,6 +785,9 @@ function changeModel() {
         $("#search_input").style.display = ""
         $("#search").style.display = ""
     } else if ($("#search_or_add").value === "add") { //切换到Add
+        $("#search_text").classList.remove("show")
+        $("#search_text").classList.add("hide")
+        $("#search_text").style.visibility = "hidden"
         $("#search_or_add").value = "search"
         now_i.classList.remove("fa-calendar-plus")
         now_i.classList.add("fa-search")
@@ -756,13 +803,25 @@ function changeModel() {
 
 function updateMySearch(hash) {
     let search_content = $("#search_content").value,
-        todo_items = $All(".item")
+        todo_items = $All(".item"),
+        todo_cnt = 0,
+        done_cnt = 0,
+        star_cnt = 0
     for (let item of todo_items) {
         if (item) {
             let item_id = item.getAttribute("id")
             let now_item = model.data.todo_items[item_id]
+            if (search_content === "" || now_item.content.search(search_content) != -1) {
+                if (now_item.done) {
+                    done_cnt++
+                } else if (!now_item.done) {
+                    todo_cnt++
+                }
+                if (now_item.star) {
+                    star_cnt++
+                }
+            }
             if ((hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) && (search_content === "" || now_item.content.search(search_content) != -1)) {
-
                 item.classList.remove("hide")
                 item.classList.remove("show")
                 setTimeout(function() {
@@ -786,6 +845,9 @@ function updateMySearch(hash) {
             }
         }
     }
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
 }
 
 function Search() {
@@ -793,5 +855,6 @@ function Search() {
         hash = window.location.hash.split("#")[1]
     input_content = input_content.trim()
     $("#search_content").value = input_content
+    $("#search_span").innerHTML = input_content
     updateMySearch(hash)
 }
