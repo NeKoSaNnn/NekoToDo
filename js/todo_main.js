@@ -162,11 +162,16 @@ function initMyToDo() {
         now_div.appendChild(now_del_btn)
         now_div.appendChild(now_star_btn)
 
-        $("#todo_items").appendChild(now_div)
-
         updateStar(now_div, hash, model.data.todo_items[key].star)
         updateDone(now_div, model.data.todo_items[key].done)
         updateDateTime(now_div, model.data.todo_items[key].datetime, model.data.todo_items[key].isModify)
+
+        now_div.classList.remove("hide")
+        now_div.classList.remove("show")
+        now_div.classList.add("show")
+
+        $("#todo_items").appendChild(now_div)
+
     }
 }
 
@@ -234,6 +239,9 @@ function addToDo() {
         let now_div = $CRE("div")
         now_div.setAttribute("id", now_item_id)
         now_div.classList.add("item")
+        now_div.classList.remove("hide")
+        now_div.classList.remove("show")
+        now_div.classList.add("show")
         if (item.done) {
             now_div.classList.remove("pink")
             now_div.classList.add("blue")
@@ -280,11 +288,17 @@ function updateMyToDo(hash) {
             let now_item = model.data.todo_items[item_id]
             if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) {
                 item.classList.remove("hide")
+                item.classList.remove("show")
+                setTimeout(function() {
+                    item.classList.add("show")
+                }, 10)
                 item.style.display = "flex"
                 item.querySelector(".todo_text").innerHTML = now_item.content
                 updateDone(item, now_item.done)
                 updateDateTime(item, now_item.datetime, now_item.isModify)
             } else {
+                item.classList.remove("hide")
+                item.classList.remove("show")
                 item.classList.add("hide")
                 item.querySelector(".todo_text").innerHTML = now_item.content
                 updateDone(item, now_item.done)
@@ -370,6 +384,8 @@ function setItemStyle(now_item, type, hash) {
                 now_item.classList.add("blue")
             }, 400)
         } else if (hash === "ToDo") {
+            now_item.classList.remove("hide")
+            now_item.classList.remove("show")
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
@@ -387,6 +403,8 @@ function setItemStyle(now_item, type, hash) {
     } else
     if (type === "ToDo") { //待完成样式
         if (hash === "Done") {
+            now_item.classList.remove("hide")
+            now_item.classList.remove("show")
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
@@ -407,6 +425,8 @@ function setItemStyle(now_item, type, hash) {
         now_check_i.classList.add("far")
         now_check_i.classList.add("fa-square")
     } else if (type === "Delete") {
+        now_item.classList.remove("hide")
+        now_item.classList.remove("show")
         now_item.classList.add("hide")
         setTimeout(function() {
             $("#todo_items").removeChild(now_item)
