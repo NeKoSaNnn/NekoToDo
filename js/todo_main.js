@@ -36,6 +36,7 @@ window.onload = function() {
 
     /*初始化搜索栏与添加栏状态切换*/
     if ($("#search_or_add").value === "search") {
+        $("#search_or_add").setAttribute("title", "Search")
         $("#search_input").style.display = "none"
         $("#search").style.display = "none"
         $("#add_input").style.display = ""
@@ -44,6 +45,7 @@ window.onload = function() {
         $("#search_text").classList.add("hide")
         $("#search_text").style.visibility = "hidden"
     } else if ($("#search_or_add").value === "add") {
+        $("#search_or_add").setAttribute("title", "Add Todo")
         $("#add_input").style.display = "none"
         $("#add").style.display = "none"
         $("#search_input").style.display = ""
@@ -190,6 +192,7 @@ function initMyToDo() {
         now_del_btn.classList.add("delete_btn")
         now_del_i.classList.add("far")
         now_del_i.classList.add("fa-trash-alt")
+        now_del_i.classList.add("Delete")
         now_del_btn.title = "Delete"
         now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
@@ -313,6 +316,7 @@ function addToDo() {
         now_del_btn.classList.add("delete_btn")
         now_del_i.classList.add("far")
         now_del_i.classList.add("fa-trash-alt")
+        now_del_i.classList.add("Delete")
         now_del_btn.title = "Delete"
         now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
@@ -772,6 +776,7 @@ function changeModel() {
     let now_i = $("#search_or_add").querySelector("i"),
         hash = window.location.hash.split("#")[1]
     if ($("#search_or_add").value === "search") { //切换到Search
+        $("#search_or_add").setAttribute("title", "Add Todo")
         $("#search_text").classList.remove("hide")
         $("#search_text").classList.add("show")
         $("#search_text").style.visibility = "visible"
@@ -785,6 +790,7 @@ function changeModel() {
         $("#search_input").style.display = ""
         $("#search").style.display = ""
     } else if ($("#search_or_add").value === "add") { //切换到Add
+        $("#search_or_add").setAttribute("title", "Search")
         $("#search_text").classList.remove("show")
         $("#search_text").classList.add("hide")
         $("#search_text").style.visibility = "hidden"
