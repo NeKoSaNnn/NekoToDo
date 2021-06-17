@@ -1,3 +1,3 @@
 # NekoToDo
 Native js implements ToDo Lists —— Neko
-## Welcome to todo.mjx.ink
+## Welcome to [Neko Todo](http://todo.mjx.ink)
