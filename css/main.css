@@ -274,7 +274,7 @@ h1 {
 #todo_items .item {
     width: 99%;
     min-height: 4rem;
-    max-height: 10rem;
+    max-height: 11rem;
     padding: 3px 0;
     display: flex;
     margin-bottom: 1vw;
