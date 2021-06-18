@@ -155,6 +155,7 @@ window.onload = function() {
 }
 
 function initMyToDo() {
+    model.update()
     let todo_cnt = 0,
         done_cnt = 0,
         star_cnt = 0,
@@ -358,7 +359,7 @@ function addToDo() {
             focusable: true,
             callback: undefined
         })
-        updateMyToDo(hash)
+        filter(event, hash)
     } else {
         vt.error("Input Can't be Empty ~", {
             title: undefined,
@@ -735,6 +736,7 @@ function updateDateTime(now_item, datetime, isModify) {
 }
 
 function filter(event, hash) {
+    model.update()
     if ($("#search_or_add").value === "search") {
         updateMyToDo(hash)
     } else if ($("#search_or_add").value === "add") {
