@@ -211,13 +211,6 @@ function initMyToDo() {
         let now_div = $CRE("div")
         now_div.setAttribute("id", key)
         now_div.classList.add("item")
-        if (item.done) {
-            now_div.classList.remove("pink")
-            now_div.classList.add("blue")
-        } else {
-            now_div.classList.remove("blue")
-            now_div.classList.add("pink")
-        }
 
         now_div.appendChild(now_check_btn)
         now_div.appendChild(now_content)
@@ -338,13 +331,6 @@ function addToDo() {
         now_div.classList.remove("hide")
         now_div.classList.remove("show")
         now_div.classList.add("show")
-        if (item.done) {
-            now_div.classList.remove("pink")
-            now_div.classList.add("blue")
-        } else {
-            now_div.classList.remove("blue")
-            now_div.classList.add("pink")
-        }
         now_div.appendChild(now_check_btn)
         now_div.appendChild(now_content)
         now_div.appendChild(now_del_btn)
@@ -538,23 +524,13 @@ function setItemStyle(now_item, type, hash) {
     let now_check = now_item.querySelector(".check_btn"),
         now_check_i = now_check.querySelector("i")
     if (type === "Done") { //已完成样式，只可能在
-        if (hash === "Done") {
-            setTimeout(function() {
-                now_item.classList.remove("pink")
-                now_item.classList.add("blue")
-            }, 400)
-        } else if (hash === "ToDo") {
+        if (hash === "ToDo") {
             now_item.classList.remove("hide")
             now_item.classList.remove("show")
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
-                now_item.classList.remove("pink")
-                now_item.classList.add("blue")
             }, 400)
-        } else { //ALL变色不用延时
-            now_item.classList.remove("pink")
-            now_item.classList.add("blue")
         }
         now_check_i.classList.remove("far")
         now_check_i.classList.remove("fa-square")
@@ -569,17 +545,7 @@ function setItemStyle(now_item, type, hash) {
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
-                now_item.classList.remove("blue")
-                now_item.classList.add("pink")
             }, 400)
-        } else if (hash === "ToDo") {
-            setTimeout(function() {
-                now_item.classList.remove("blue")
-                now_item.classList.add("pink")
-            }, 400)
-        } else { //ALL变色不用延时
-            now_item.classList.remove("blue")
-            now_item.classList.add("pink")
         }
         now_check_i.classList.remove("fas")
         now_check_i.classList.remove("fa-check-square")

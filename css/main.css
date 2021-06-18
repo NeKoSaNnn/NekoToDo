@@ -353,31 +353,6 @@ h1 {
     }
 }
 
-
-/*
-#todo_items .yellow {
-    background: #FFD568;
-    opacity: 1;
-}
-*/
-
-
-/*
-#todo_items .blue {
-    background: rgb(145, 227, 255);
-    box-shadow: 0px 0px 15px rgb(145 227 255 / 50%);
-    /*background: #17ead9;
-    background: -webkit-linear-gradient(45deg, #17ead9, #6078ea);
-    background: linear-gradient(45deg, #17ead9, #6078ea);*/
-
-
-/*opacity: 1;}
-
-#todo_items .pink {
-    background: #FF766D;
-    opacity: 1;
-}*/
-
 .hide {
     animation: fade-out 0.5s;
 }
