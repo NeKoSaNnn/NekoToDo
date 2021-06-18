@@ -2,7 +2,7 @@
 
 Native js implements ToDo Lists —— Neko
 
-## Welcome to [Neko Todo](http://todo.mjx.ink) or [Neko Todo Github page](https://nekosannn.github.io)
+## Welcome to 【电脑端：[Neko Todo](http://mjx.ink)】 or 【移动端：[Neko Todo Mobile](http://todo.mjx.ink)】
 
 ### 项目介绍
 
@@ -31,21 +31,49 @@ Native js implements ToDo Lists —— Neko
 
 ### HTML 设计
 
+- `index.html`
+
 ### CSS 设计
 
+- `main.css`
+  主要部分的 css，网页整体的 css 设计，进行响应式支持
+- `modal.css`
+  模态框整体的 css,进行渐变色与动画设计，进行响应式支持
+- `preload.css`
+  预加载样式的 css，主要进行预加载动画设计
+- `popbtn.css`
+  悬浮弹出按钮的 css，主要进行弹出动画设计
+
 ### JS 设计
+
+- `localStore.js`
+  主要进行 localStorage 的初始化，更新与写入操作，用于前端的数据持久化操作
+- `modal.js`
+  主要进行模态框开启，关闭，修改保存的逻辑实现，并且实现了空白处（模态框外）点击关闭的效果，并且进行了模态框输入框的内容非空判断
+- `preload.js`
+  主要进行预加载的控制实现，但页面加载完毕后短暂延迟关闭遮罩层
+- `star_bg.js`
+  主要进行背景星星的生成与位移控制
+- `toastr.js`
+  主要进行悬浮提示框的生成
+- `todo_main.js`
+  Todo 的核心逻辑 JS
+- `tool.js`
+  工具辅助 JS，为适应本人使用习惯，模仿 Jquery 风格进行部分简化表达
 
 ### 参考源码
 
 - #### `vendor/fontawsome-5.13.3/` 参考 100%
   来源：https://fontawesome.com/v5.15/how-to-use/on-the-web/setup/getting-started
-- #### `toastr.js` 参考 95%
+- #### `toastr.js` 参考 80%
   来源：https://github.com/mehmetemineker/vanilla-toast
-- #### `preload.css` 参考 60%
-  来源：
 - #### `modal.css` 参考 20%
-  来源:
+
+  来源:https://blog.csdn.net/zl_best/article/details/62423802
+
+- #### `star_bg.js` 参考 20%
+
+  来源：https://www.jq22.com/jquery-info22256
+
 - #### `popbtn.js` 参考 10%
-  来源：
-- #### `star_bg.js` 参考 30%
-  来源：
+  来源：http://www.dmaku.com/jquery-1273.html
