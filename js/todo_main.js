@@ -454,6 +454,14 @@ function deleteToDo(event, now) {
     }
     delete model.data.todo_items[now_id]
     model.flush()
+    vt.success("Delete ~", {
+        title: undefined,
+        position: "top-right",
+        duration: 1500,
+        closable: true,
+        focusable: true,
+        callback: undefined
+    });
     setItemStyle(now_item, "Delete", "")
     if (JSON.stringify(model.data.todo_items) == "{}") {
         $("#filter_btn").classList.remove("show")
@@ -470,8 +478,24 @@ function starToDo(event, now) {
     model.flush()
     if (model.data.todo_items[now_id].star) {
         $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) + 1
+        vt.success("Star ⭐~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
     } else if (!model.data.todo_items[now_id].star) {
         $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) - 1
+        vt.info("Cancel ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
     }
     updateStar(now_item, hash, model.data.todo_items[now_id].star)
 }
@@ -508,9 +532,25 @@ function doneToDo(event, now) {
     if (model.data.todo_items[now_id].done) {
         $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) + 1)
         $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
+        vt.success("Done ✏ ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
     } else if (!model.data.todo_items[now_id].done) {
         $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) - 1)
         $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) + 1)
+        vt.info("Todo ✏ ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
     }
     updateDone(now_item, model.data.todo_items[now_id].done)
 }
