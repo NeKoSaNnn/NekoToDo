@@ -3,11 +3,11 @@
 Native js implements Todos —— Neko
 
 ## Welcome to 【电脑端：[Neko Todo](http://mjx.ink)】 or 【移动端：[Neko Todo Mobile](http://todo.mjx.ink)】
-
+---
 ### 项目介绍
 
 #### 无任何框架，本地持久化存储，原生开发，实现的 Todo MVC，仅前端模块，不收集任何用户信息，请放心使用~
-
+---
 ### 项目结构
 
 ###### ├─css
@@ -33,7 +33,7 @@ Native js implements Todos —— Neko
 ###### 　　 ├─css
 ###### 　　 ├─js
 ###### 　　 └─webfonts
-
+---
 ### 设计思路
 
 - #### 使用 `localStorage` 进行数据持久化存储
@@ -44,7 +44,7 @@ Native js implements Todos —— Neko
 - #### 采用图标代替文字，直观易懂，并加入`title`元素设置提示
 - #### 采用模态框进行内容修改，对于多行内容提供支持，进行完全展示
 - #### 对于每条 Todo 设定最小高度与最大高度（最多显示 4 行内容`-webkit-box`），多余内容进行省略号显示，提高用户体验，避免一行到底
-
+---
 ### 功能点介绍
 
 - #### 基本功能
@@ -65,7 +65,7 @@ Native js implements Todos —— Neko
   - **显示 Todo,Done,Star 的总记录数**【对于 Add Todo 显示不受过滤 Tab 影响，对于 Search Todo 根据过滤 Tab 进行实时更新】
   - 对编辑后的 Todo 内容，进行前端友好提示【<span style="color:red">_New !_</span>】，该提示会在最新修改完成 6h 后自动消失
   - 记录 Todo 最新的更新时间，初始时间为添加时间
-
+---
 ### HTML 设计
 
 - `index.html`
@@ -79,7 +79,7 @@ Native js implements Todos —— Neko
     - 包含【Done All】,【Cancel Done All】,【Delete All】,【Change Model】四个功能块
   - 右悬浮按钮：`#todo-right-pop`
     - 【Clear Done】功能块
-
+---
 ### CSS 设计
 
 - `main.css`
@@ -90,7 +90,7 @@ Native js implements Todos —— Neko
   预加载样式的 css，主要进行预加载动画设计
 - `popbtn.css`
   悬浮弹出按钮的 css，主要进行弹出动画设计
-
+---
 ### JS 设计
 
 - `localStore.js`
@@ -152,7 +152,7 @@ Native js implements Todos —— Neko
     - 用户在【Search 状态】 下点击过滤标签进行内容过滤时所调用
   - `Search`:
   - 用户在【Search 状态下】在输入框进行搜索所绑定的事件
-
+---
 ### 参考源码
 
 - #### `vendor/fontawsome-5.13.3/` 参考 100%
