@@ -1,6 +1,6 @@
 # NekoToDo
 
-Native js implements ToDo Lists —— Neko
+Native js implements Todos —— Neko
 
 ## Welcome to 【电脑端：[Neko Todo](http://mjx.ink)】 or 【移动端：[Neko Todo Mobile](http://todo.mjx.ink)】
 
