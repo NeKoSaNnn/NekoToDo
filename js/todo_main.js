@@ -555,6 +555,27 @@ function doneToDo(event, now) {
     updateDone(now_item, model.data.todo_items[now_id].done)
 }
 
+function updateDone(now_item, isDone) {
+    let now_text = now_item.querySelector(".todo_text"),
+        hash = window.location.hash.split("#")[1]
+    if (isDone) {
+        let now_content = now_text.innerHTML,
+            now_s = $CRE("s")
+        now_s.innerHTML = now_content
+        now_text.innerHTML = ""
+        now_text.appendChild(now_s)
+        setItemStyle(now_item, "Done", hash)
+    } else {
+        let now_s = now_text.querySelector("s")
+        if (now_s) {
+            let now_content = now_s.innerHTML
+            now_text.removeChild(now_s)
+            now_text.innerHTML = now_content
+        }
+        setItemStyle(now_item, "ToDo", hash)
+    }
+}
+
 function editText(event, now) {
     let now_item = now.parentNode,
         now_modal = $("#modal")
@@ -741,27 +762,6 @@ function clearDone() {
         });
     }
 
-}
-
-function updateDone(now_item, isDone) {
-    let now_text = now_item.querySelector(".todo_text"),
-        hash = window.location.hash.split("#")[1]
-    if (isDone) {
-        let now_content = now_text.innerHTML,
-            now_s = $CRE("s")
-        now_s.innerHTML = now_content
-        now_text.innerHTML = ""
-        now_text.appendChild(now_s)
-        setItemStyle(now_item, "Done", hash)
-    } else {
-        let now_s = now_text.querySelector("s")
-        if (now_s) {
-            let now_content = now_s.innerHTML
-            now_text.removeChild(now_s)
-            now_text.innerHTML = now_content
-        }
-        setItemStyle(now_item, "ToDo", hash)
-    }
 }
 
 function updateDateTime(now_item, datetime, isModify) {

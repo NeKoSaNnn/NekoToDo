@@ -6,9 +6,22 @@ Native js implements ToDo Lists —— Neko
 
 ### 项目介绍
 
+#### 无任何框架，本地持久化存储，原生开发，实现的 Todo MVC，仅前端模块，不收集任何用户信息，请放心使用~
+
 ### 项目结构
 
-### 各模块功能点介绍
+### 设计思路
+
+- #### 使用 `localStorage` 进行数据持久化存储
+- #### 通过 `window.location.hash` 进行过滤选择判断
+- #### 加入功能栏进行批量操作，并使用悬浮弹出按钮进行收纳，简洁页面
+- #### 通过加入模式切换按钮在【Add 模式】与【Search 模式】之间切换，不进行页面跳转而做到了功能的完全扩增（Search 模块相较于 Add 模块是相似但又有区别的全新内容），简洁页面
+- #### 相应的过滤块下功能栏的批量操作是相对应的，不采用全局操作，只对当前过滤块操作
+- #### 采用图标代替文字，直观易懂，并加入`title`元素设置提示
+- #### 采用模态框进行内容修改，对于多行内容提供支持，进行完全展示
+- #### 对于每条 Todo 设定最小高度与最大高度（最多显示 4 行内容`-webkit-box`），多余内容进行省略号显示，提高用户体验，避免一行到底
+
+### 功能点介绍
 
 - #### 基本功能
   - 新增 Todo
@@ -32,6 +45,16 @@ Native js implements ToDo Lists —— Neko
 ### HTML 设计
 
 - `index.html`
+  - 背景部分:`#stars`
+    - 生成星星背景，如果页面存在明显卡顿则删除该元素
+  - 模态框：`#modal`
+    - 模态框内容
+  - 主要内容：`#content`
+    - 包含标题，统计数字，输入框，以及 Todo 列表
+  - 左悬浮弹出按钮:`#todo-left-pop`
+    - 包含【Done All】,【Cancel Done All】,【Delete All】,【Change Model】四个功能块
+  - 右悬浮按钮：`#todo-right-pop`
+    - 【Clear Done】功能块
 
 ### CSS 设计
 
@@ -56,10 +79,55 @@ Native js implements ToDo Lists —— Neko
   主要进行背景星星的生成与位移控制
 - `toastr.js`
   主要进行悬浮提示框的生成
-- `todo_main.js`
-  Todo 的核心逻辑 JS
 - `tool.js`
   工具辅助 JS，为适应本人使用习惯，模仿 Jquery 风格进行部分简化表达
+- `todo_main.js`
+  Todo 的核心逻辑 JS
+  - `window.load`:
+    - 模型初始化
+    - 监听事件初始化绑定
+    - 初始化搜索栏与添加栏状态切换
+  - `initMyToDo`:
+    - 初始化动态创建 Todo 列表，在模型初始化时被调用
+  - `addToDo`:
+    - 在【Add 状态】下对相应的过滤块添加一条内容
+    - 绑定该条内容的监听事件
+  - `updateMyToDo`:
+    - 用户在【Add 状态】 下点击过滤标签进行内容过滤时所调用
+  - `updateMyOneToDo`:
+    - 用户在修改内容后，单独更新修改块，优化效率
+  - `deleteToDo`:
+    - 每条 Todo 均绑定的删除按钮的触发事件（进行删除操作）
+  - `starToDo`:
+    - 每条 Todo 均绑定的星标按钮的触发事件（进行 Start 与 Not Star 的状态切换）
+  - `updateStar`:
+    - 更新 star 切换的 css 样式，在`starToDo`后触发
+  - `doneToDo`:
+    - 每条 Todo 均绑定的完成按钮的触发事件（进行 Todo 与 Done 的状态切换）
+  - `updateDone`:
+    - 更新 done 切换的 css 样式，在`doneToDo`后触发
+  - `editText`:
+    - 绑定点击内容块弹出模态框进行修改的事件
+  - `setItemStyle`:
+    - 设置单条 Todo 的 css 样式，主要服务于工具栏按钮（【Done All】,【Cancel Done All】,【Delete All】,【Clear Done】）
+  - `deleteAll`:
+    - 工具栏的删除全部（Delete All）的绑定事件
+  - `doneAll`:
+    - 工具栏的完成全部（Done All）的绑定事件
+  - `notdoneAll`:
+    - 工具栏的取消全部完成（Cancel Done All）的绑定事件
+  - `clearDone`:
+    - 工具栏的清除已完成（Clear Done）的绑定事件
+  - `updateDateTime`:
+    - 在修改内容后进行【New!】提示，该提示在 6h 后自动消失
+  - `filter`:
+    - 过滤函数，根据【Add 模式】与【Search 模式】进行选择性过滤，来调用不同的函数
+  - `changeModel`:
+    - 工具栏的切换模式按钮绑定的事件，用于【Add 模式】与【Search 模式】的切换
+  - `updateMySearch`:
+    - 用户在【Search 状态】 下点击过滤标签进行内容过滤时所调用
+  - `Search`:
+  - 用户在【Search 状态下】在输入框进行搜索所绑定的事件
 
 ### 参考源码
 
