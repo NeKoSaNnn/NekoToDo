@@ -10,17 +10,17 @@ Native js implements Todos —— Neko
 ---
 ### 项目结构
 
-├─css<br/>
+└─css<br/>
 　│ main.css<br/>
 　│ modal.css<br/>
 　│ popbtn.css<br/>
 　│ preload.css<br/>
-├─fonts<br/>
+└─fonts<br/>
 　│ Inkfree.ttf<br/>
 　│ mvboli.ttf<br/>
-├─icon<br/>
+└─icon<br/>
 　│ logo.png<br/>
-├─js<br/>
+└─js<br/>
 　│ localStore.js<br/>
 　│ modal.js<br/>
 　│ preload.js<br/>
@@ -33,7 +33,7 @@ Native js implements Todos —— Neko
 　　├─css<br/>
 　　├─js<br/>
 　　└─webfonts<br/>
-├─index.html<br/>
+└─index.html<br/>
 
 ---
 ### 设计思路
