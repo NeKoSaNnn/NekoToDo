@@ -10,6 +10,30 @@ Native js implements ToDo Lists —— Neko
 
 ### 项目结构
 
+├─css
+　 │ main.css
+　 │ modal.css
+　 │ popbtn.css
+　 │ preload.css
+├─fonts
+　 │ Inkfree.ttf
+　 │ mvboli.ttf
+├─icon
+　 │ logo.png
+├─js
+　 │ localStore.js
+　 │ modal.js
+　 │ preload.js
+　 │ star_bg.js
+　 │ toastr.js
+　 │ todo_main.js
+　 │ tool.js
+└─vendor
+　 └─fontawesome-5.15.3
+　　 ├─css
+　　 ├─js
+　　 └─webfonts
+
 ### 设计思路
 
 - #### 使用 `localStorage` 进行数据持久化存储
